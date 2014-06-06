@@ -1,7 +1,7 @@
 steps-amazon-s3-upload
 ======================
 
-Syncs the given local folder with an S3 bucket.
+Syncs the given local folder with an S3 bucket, and makes it public-read!
 
 
 # Warning!

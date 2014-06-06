@@ -31,6 +31,6 @@ print_and_do_command brew install s3cmd
 print_and_do_command s3cmd --version
 printf %"s\n" '[default]' "access_key = $AWS_ACCESS_KEY_ID" "secret_key = $AWS_SECRET_ACCESS_KEY" > $HOME/.s3cfg
 
-print_and_do_command s3cmd sync "$S3_UPLOAD_LOCAL_PATH" "s3://$S3_UPLOAD_BUCKET" --delete-removed
+print_and_do_command s3cmd sync "$S3_UPLOAD_LOCAL_PATH" "s3://$S3_UPLOAD_BUCKET" --delete-removed --acl-public
 
 rm $HOME/.s3cfg
