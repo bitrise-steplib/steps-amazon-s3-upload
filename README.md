@@ -21,3 +21,11 @@ It will remove every other folder from the bucket!
 # Note
 
 Uses the s3cmd utility, installed through brew.
+
+
+# TODO
+
+- proper error handling: return non-zero exit code if fails
+    - if it can't find it's local, source path (it doesn't exist) then it's also a fail!
+- export the sync result (success/error) to an Environment Variable, so other Steps can access it
+- test with invalid inputs
