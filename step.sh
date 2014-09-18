@@ -12,21 +12,30 @@ function write_section_to_formatted_output {
   echo '' >> ${formatted_output_file_path}
 }
 
+function print_failed_message {
+  fail_msg="$1"
+  echo " [!] ${fail_msg}"
+  write_section_to_formatted_output "## Failed"
+  write_section_to_formatted_output "${fail_msg}"
+}
+
 write_section_to_formatted_output "# S3 Upload"
 
 
 if [ ! -n "${AWS_ACCESS_KEY_ID}" ]; then
   echo ' [!] Input AWS_ACCESS_KEY_ID is missing'
+  print_failed_message 'Input AWS_ACCESS_KEY_ID is missing'
   exit 1
 fi
 
 if [ ! -n "${AWS_SECRET_ACCESS_KEY}" ]; then
-  echo ' [!] Input AWS_SECRET_ACCESS_KEY is missing'
+  print_failed_message 'Input AWS_SECRET_ACCESS_KEY is missing'
+  write_section_to_formatted_output
   exit 1
 fi
 
 if [ ! -n "${S3_UPLOAD_LOCAL_PATH}" ]; then
-  echo ' [!] Input S3_UPLOAD_LOCAL_PATH is missing'
+  print_failed_message 'Input S3_UPLOAD_LOCAL_PATH is missing'
   exit 1
 fi
 
@@ -35,12 +44,12 @@ fi
 eval expanded_upload_local_path="${S3_UPLOAD_LOCAL_PATH}"
 
 if [ ! -n "${S3_UPLOAD_BUCKET}" ]; then
-  echo ' [!] Input S3_UPLOAD_BUCKET is missing'
+  print_failed_message 'Input S3_UPLOAD_BUCKET is missing'
   exit 1
 fi
 
 if [ ! -e "${expanded_upload_local_path}" ]; then
-  echo " [!] The specified local path doesn't exist at: ${expanded_upload_local_path}"
+  print_failed_message "The specified local path doesn't exist at: ${expanded_upload_local_path}"
   exit 1
 fi
 
