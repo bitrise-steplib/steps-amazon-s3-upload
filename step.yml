@@ -1,6 +1,8 @@
 name: Amazon S3 Bucket Sync
 description: |
   Syncs the given local folder with an S3 bucket.
+  
+  This Step requires an Amazon S3 registration. To register an Amazon S3 account, [click here](http://aws.amazon.com/s3/)
 
   # Warning!
 
