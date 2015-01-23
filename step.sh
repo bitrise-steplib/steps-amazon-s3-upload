@@ -1,5 +1,7 @@
 #!/bin/bash
 
+THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 formatted_output_file_path="${BITRISE_STEP_FORMATTED_OUTPUT_FILE_PATH}"
 
 function echo_string_to_formatted_output {
@@ -74,6 +76,14 @@ function print_and_do_command_cleanup_and_exit_on_error {
 }
 
 s3cmd_config_file_path="s3cfg.config"
+
+# s3cmd OS X fix
+bash "${THIS_SCRIPT_DIR}/__s3cmd_osx_fix.sh"
+if [ $? -ne 0 ] ; then
+  echo "[!] Failed to apply required s3cmd fix"
+  exit 1
+fi
+
 
 print_and_do_command_cleanup_and_exit_on_error brew install s3cmd
 print_and_do_command_cleanup_and_exit_on_error s3cmd --version
