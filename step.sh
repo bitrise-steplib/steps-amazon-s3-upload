@@ -84,9 +84,16 @@ if [ $? -ne 0 ] ; then
   exit 1
 fi
 
+echo "Checking s3cmd version"
+print_and_do_command s3cmd --version
+if [ $? -ne 0 ] ; then
+  echo "No s3cmd version found, installing..."
+  print_and_do_command_cleanup_and_exit_on_error brew install s3cmd
+  print_and_do_command_cleanup_and_exit_on_error s3cmd --version
+else
+  echo " (i) s3cmd found, no need to install it"
+fi
 
-print_and_do_command_cleanup_and_exit_on_error brew install s3cmd
-print_and_do_command_cleanup_and_exit_on_error s3cmd --version
 printf %"s\n" '[default]' "access_key = ${AWS_ACCESS_KEY_ID}" "secret_key = ${AWS_SECRET_ACCESS_KEY}" > "${s3cmd_config_file_path}"
 
 s3_url="s3://${S3_UPLOAD_BUCKET}"
