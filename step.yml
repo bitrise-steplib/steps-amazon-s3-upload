@@ -1,7 +1,8 @@
-name: "Amazon S3 Bucket Sync"
-description: |
+title: "Amazon S3 Bucket Sync"
+summary: "Amazon S3 Bucket Sync"
+description: |-
   Syncs the given local folder with an S3 bucket.
-  
+
   This Step requires an Amazon S3 registration.
   To register an Amazon S3 account, [click here](http://aws.amazon.com/s3/).
 
@@ -10,47 +11,65 @@ description: |
   It will perform a one-direction sync, removing every file and folder from
   the bucket which is not present in the local, input folder!
 website: https://github.com/bitrise-io/steps-amazon-s3-upload
-fork_url: https://github.com/bitrise-io/steps-amazon-s3-upload
-source:
-  git: https://github.com/bitrise-io/steps-amazon-s3-upload.git
+source_code_url: https://github.com/bitrise-io/steps-amazon-s3-upload
+support_url: https://github.com/bitrise-io/steps-amazon-s3-upload/issues
 host_os_tags:
   - osx-10.9
   - osx-10.10
+project_type_tags: []
 type_tags:
   - deploy
   - upload
   - uploader
   - amazon
 is_requires_admin_user: false
+is_always_run: false
+is_skippable: false
+dependencies: []
+run_if: ""
 inputs:
-  - 
-    mapped_to: AWS_ACCESS_KEY_ID
-    title: "AWS Access Key"
-    is_expand: false
-    is_required: true
-  - 
-    mapped_to: AWS_SECRET_ACCESS_KEY
-    title: "AWS Secret Key"
-    is_expand: false
-    is_required: true
-  - 
-    mapped_to: S3_UPLOAD_BUCKET
-    title: "S3 Bucket Name"
-    is_expand: false
-    is_required: true
-  - 
-    mapped_to: S3_UPLOAD_LOCAL_PATH
-    title: "Local path to upload"
-    description: |
-      If you want to sync only the content of
-      the folder but don't want to create the folder then you
-      should append a slash at the end of the path. Example: ./folder/
-    is_expand: true
-    is_required: true
-  - 
-    mapped_to: S3_ACL_CONTROL
-    title: "Access Control"
-    value_options: ["public-read", "private"]
-    value: "private"
-    is_expand: false
-    is_required: true
+  - access_key_id: ""
+    opts:
+      title: "AWS Access Key"
+      summary: ""
+      description: ""
+      is_expand: false
+      is_required: true
+      is_dont_change_value: false
+  - secret_access_key: ""
+    opts:
+      title: "AWS Secret Key"
+      summary: ""
+      description: ""
+      is_expand: false
+      is_required: true
+      is_dont_change_value: false
+  - upload_bucket: ""
+    opts:
+      title: "S3 Bucket Name"
+      summary: ""
+      description: ""
+      is_expand: false
+      is_required: true
+      is_dont_change_value: false
+  - upload_local_path: ""
+    opts:
+      title: "Local path to upload"
+      summary: ""
+      description: |
+        If you want to sync only the content of
+        the folder but don't want to create the folder then you
+        should append a slash at the end of the path. Example: ./folder/
+      is_expand: true
+      is_required: true
+      is_dont_change_value: false
+  - acl_cotrol: "private"
+    opts:
+      title: "Access Control"
+      summary: ""
+      description: ""
+      value_options: ["public-read", "private"]
+      is_expand: false
+      is_required: true
+      is_dont_change_value: false
+outputs: []

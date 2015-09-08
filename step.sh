@@ -24,29 +24,29 @@ function print_failed_message {
 write_section_to_formatted_output "# S3 Upload"
 
 
-if [ ! -n "${AWS_ACCESS_KEY_ID}" ]; then
-  echo ' [!] Input AWS_ACCESS_KEY_ID is missing'
-  print_failed_message 'Input AWS_ACCESS_KEY_ID is missing'
+if [ ! -n "${access_key_id}" ]; then
+  echo ' [!] Input access_key_id is missing'
+  print_failed_message 'Input access_key_id is missing'
   exit 1
 fi
 
-if [ ! -n "${AWS_SECRET_ACCESS_KEY}" ]; then
-  print_failed_message 'Input AWS_SECRET_ACCESS_KEY is missing'
+if [ ! -n "${secret_access_key}" ]; then
+  print_failed_message 'Input secret_access_key is missing'
   write_section_to_formatted_output
   exit 1
 fi
 
-if [ ! -n "${S3_UPLOAD_LOCAL_PATH}" ]; then
-  print_failed_message 'Input S3_UPLOAD_LOCAL_PATH is missing'
+if [ ! -n "${upload_local_path}" ]; then
+  print_failed_message 'Input upload_local_path is missing'
   exit 1
 fi
 
 # this expansion is required for paths with ~
 #  more information: http://stackoverflow.com/questions/3963716/how-to-manually-expand-a-special-variable-ex-tilde-in-bash
-eval expanded_upload_local_path="${S3_UPLOAD_LOCAL_PATH}"
+eval expanded_upload_local_path="${upload_local_path}"
 
-if [ ! -n "${S3_UPLOAD_BUCKET}" ]; then
-  print_failed_message 'Input S3_UPLOAD_BUCKET is missing'
+if [ ! -n "${upload_bucket}" ]; then
+  print_failed_message 'Input upload_bucket is missing'
   exit 1
 fi
 
@@ -94,13 +94,13 @@ else
   echo " (i) s3cmd found, no need to install it"
 fi
 
-printf %"s\n" '[default]' "access_key = ${AWS_ACCESS_KEY_ID}" "secret_key = ${AWS_SECRET_ACCESS_KEY}" > "${s3cmd_config_file_path}"
+printf %"s\n" '[default]' "access_key = ${access_key_id}" "secret_key = ${secret_access_key}" > "${s3cmd_config_file_path}"
 
-s3_url="s3://${S3_UPLOAD_BUCKET}"
+s3_url="s3://${upload_bucket}"
 print_and_do_command_cleanup_and_exit_on_error s3cmd -c "${s3cmd_config_file_path}" sync "${expanded_upload_local_path}" "${s3_url}" --delete-removed
 
 aclcmd='--acl-private'
-if [ "${S3_ACL_CONTROL}" == 'public-read' ]; then
+if [ "${acl_cotrol}" == 'public-read' ]; then
   echo " (i) ACL 'public-read' specified!"
   aclcmd='--acl-public'
 fi
@@ -110,5 +110,5 @@ print_and_do_command_cleanup_and_exit_on_error rm "${s3cmd_config_file_path}"
 
 
 write_section_to_formatted_output "## Success"
-echo_string_to_formatted_output "* **Access Control** set to: **${S3_ACL_CONTROL}**"
-echo_string_to_formatted_output "* **Base URL**: [http://${S3_UPLOAD_BUCKET}.s3.amazonaws.com/](http://${S3_UPLOAD_BUCKET}.s3.amazonaws.com/)"
+echo_string_to_formatted_output "* **Access Control** set to: **${acl_cotrol}**"
+echo_string_to_formatted_output "* **Base URL**: [http://${upload_bucket}.s3.amazonaws.com/](http://${upload_bucket}.s3.amazonaws.com/)"
