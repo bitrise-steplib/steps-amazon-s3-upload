@@ -25,7 +25,9 @@ type_tags:
 is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
-dependencies: []
+dependencies:
+  - manager: brew
+    name: s3cmd
 run_if: ""
 inputs:
   - access_key_id: ""
@@ -63,7 +65,7 @@ inputs:
       is_expand: true
       is_required: true
       is_dont_change_value: false
-  - acl_cotrol: "private"
+  - acl_control: "private"
     opts:
       title: "Access Control"
       summary: ""

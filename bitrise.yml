@@ -8,10 +8,10 @@ app:
   - secret_access_key:
   - upload_bucket:
   - upload_local_path:
-  - acl_cotrol:
 
 workflows:
   test:
     steps:
     - path::./:
         inputs:
+        - acl_control: private

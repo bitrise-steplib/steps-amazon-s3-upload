@@ -84,23 +84,13 @@ if [ $? -ne 0 ] ; then
   exit 1
 fi
 
-echo "Checking s3cmd version"
-print_and_do_command s3cmd --version
-if [ $? -ne 0 ] ; then
-  echo "No s3cmd version found, installing..."
-  print_and_do_command_cleanup_and_exit_on_error brew install s3cmd
-  print_and_do_command_cleanup_and_exit_on_error s3cmd --version
-else
-  echo " (i) s3cmd found, no need to install it"
-fi
-
 printf %"s\n" '[default]' "access_key = ${access_key_id}" "secret_key = ${secret_access_key}" > "${s3cmd_config_file_path}"
 
 s3_url="s3://${upload_bucket}"
 print_and_do_command_cleanup_and_exit_on_error s3cmd -c "${s3cmd_config_file_path}" sync "${expanded_upload_local_path}" "${s3_url}" --delete-removed
 
 aclcmd='--acl-private'
-if [ "${acl_cotrol}" == 'public-read' ]; then
+if [ "${acl_control}" == 'public-read' ]; then
   echo " (i) ACL 'public-read' specified!"
   aclcmd='--acl-public'
 fi
@@ -110,5 +100,5 @@ print_and_do_command_cleanup_and_exit_on_error rm "${s3cmd_config_file_path}"
 
 
 write_section_to_formatted_output "## Success"
-echo_string_to_formatted_output "* **Access Control** set to: **${acl_cotrol}**"
+echo_string_to_formatted_output "* **Access Control** set to: **${acl_control}**"
 echo_string_to_formatted_output "* **Base URL**: [http://${upload_bucket}.s3.amazonaws.com/](http://${upload_bucket}.s3.amazonaws.com/)"
