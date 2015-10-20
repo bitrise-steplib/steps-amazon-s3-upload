@@ -2,16 +2,16 @@
 
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-formatted_output_file_path="${BITRISE_STEP_FORMATTED_OUTPUT_FILE_PATH}"
+set -e
 
 function echo_string_to_formatted_output {
-  echo "$1" >> ${formatted_output_file_path}
+  echo "$1"
 }
 
 function write_section_to_formatted_output {
-  echo '' >> ${formatted_output_file_path}
-  echo "$1" >> ${formatted_output_file_path}
-  echo '' >> ${formatted_output_file_path}
+  echo ''
+  echo "$1"
+  echo ''
 }
 
 function print_failed_message {
@@ -75,28 +75,29 @@ function print_and_do_command_cleanup_and_exit_on_error {
   fi
 }
 
-s3cmd_config_file_path="s3cfg.config"
-
-# s3cmd OS X fix
-bash "${THIS_SCRIPT_DIR}/__s3cmd_osx_fix.sh"
-if [ $? -ne 0 ] ; then
-  echo "[!] Failed to apply required s3cmd fix"
-  exit 1
-fi
-
-printf %"s\n" '[default]' "access_key = ${access_key_id}" "secret_key = ${secret_access_key}" > "${s3cmd_config_file_path}"
-
-s3_url="s3://${upload_bucket}"
-print_and_do_command_cleanup_and_exit_on_error s3cmd -c "${s3cmd_config_file_path}" sync "${expanded_upload_local_path}" "${s3_url}" --delete-removed
-
-aclcmd='--acl-private'
+aclcmd='private'
 if [ "${acl_control}" == 'public-read' ]; then
   echo " (i) ACL 'public-read' specified!"
-  aclcmd='--acl-public'
+  aclcmd='public-read'
 fi
-print_and_do_command_cleanup_and_exit_on_error s3cmd -c "${s3cmd_config_file_path}" setacl "${s3_url}" ${aclcmd} --recursive
 
-print_and_do_command_cleanup_and_exit_on_error rm "${s3cmd_config_file_path}"
+s3_url="s3://${upload_bucket}"
+export AWS_ACCESS_KEY_ID="${access_key_id}"
+export AWS_SECRET_ACCESS_KEY="${secret_access_key}"
+
+# do a sync -> delete no longer existing objects
+echo "$" aws s3 sync "${expanded_upload_local_path}" "${s3_url}" --delete --acl ${aclcmd}
+aws s3 sync "${expanded_upload_local_path}" "${s3_url}" --delete --acl ${aclcmd}
+
+# `sync` only sets the --acl for the modified files, so we'll
+#  have to query the objects manually, and set the required acl one by one
+IFS=$'\n'
+for a_s3_obj_key in $(aws s3api list-objects --bucket "${upload_bucket}" --query Contents[].[Key] --output text)
+do
+  echo "$" aws s3api put-object-acl --acl ${aclcmd} --bucket "${upload_bucket}" --key "${a_s3_obj_key}"
+  aws s3api put-object-acl --acl ${aclcmd} --bucket "${upload_bucket}" --key "${a_s3_obj_key}"
+done
+unset IFS
 
 
 write_section_to_formatted_output "## Success"
