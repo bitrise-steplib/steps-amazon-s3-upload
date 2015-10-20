@@ -74,4 +74,21 @@ inputs:
       is_expand: false
       is_required: true
       is_dont_change_value: false
+  - set_acl_only_on_changed_objets: "true"
+    opts:
+      title: "Set ACL only on changed objects?"
+      summary: |-
+        If set to "true" it'll only set ACL for changed objects, which is
+        way faster to do than to check and set every objects' ACL.
+
+        Generally, you can keep this option on "yes" to get a speed boost,
+        and you should only change it to "false" if you changed the
+        ACL option (in order to force set every object's ACL to the specified one).
+      description: ""
+      value_options:
+        - "true"
+        - "false"
+      is_expand: false
+      is_required: true
+      is_dont_change_value: false
 outputs: []

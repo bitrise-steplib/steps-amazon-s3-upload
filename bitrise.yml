@@ -16,3 +16,4 @@ workflows:
         inputs:
         # - acl_control: private
         - acl_control: public-read
+        - set_acl_only_on_changed_objets: true

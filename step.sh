@@ -89,16 +89,20 @@ export AWS_SECRET_ACCESS_KEY="${secret_access_key}"
 echo "$" aws s3 sync "${expanded_upload_local_path}" "${s3_url}" --delete --acl ${aclcmd}
 aws s3 sync "${expanded_upload_local_path}" "${s3_url}" --delete --acl ${aclcmd}
 
-# `sync` only sets the --acl for the modified files, so we'll
-#  have to query the objects manually, and set the required acl one by one
-IFS=$'\n'
-for a_s3_obj_key in $(aws s3api list-objects --bucket "${upload_bucket}" --query Contents[].[Key] --output text)
-do
-  echo "$" aws s3api put-object-acl --acl ${aclcmd} --bucket "${upload_bucket}" --key "${a_s3_obj_key}"
-  aws s3api put-object-acl --acl ${aclcmd} --bucket "${upload_bucket}" --key "${a_s3_obj_key}"
-done
-unset IFS
-
+if [[ "${set_acl_only_on_changed_objets}" != "true" ]] ; then
+  echo "=> Setting ACL on every object, this can take some time..."
+  # `sync` only sets the --acl for the modified files, so we'll
+  #  have to query the objects manually, and set the required acl one by one
+  IFS=$'\n'
+  for a_s3_obj_key in $(aws s3api list-objects --bucket "${upload_bucket}" --query Contents[].[Key] --output text)
+  do
+    echo "$" aws s3api put-object-acl --acl ${aclcmd} --bucket "${upload_bucket}" --key "${a_s3_obj_key}"
+    aws s3api put-object-acl --acl ${aclcmd} --bucket "${upload_bucket}" --key "${a_s3_obj_key}"
+  done
+  unset IFS
+else
+  echo "=> (!) ACL is only changed on objects which were changed by the sync"
+fi
 
 write_section_to_formatted_output "## Success"
 echo_string_to_formatted_output "* **Access Control** set to: **${acl_control}**"
