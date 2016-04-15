@@ -91,4 +91,14 @@ inputs:
       is_expand: false
       is_required: true
       is_dont_change_value: false
+  - aws_region: ""
+    opts:
+      title: "AWS Region"
+      summary: ""
+      description: |
+        If you want to specify a different AWS region of the bucket. Leave
+        empty to use the default config/env setting.
+      is_expand: false
+      is_required: false
+      is_dont_change_value: false
 outputs: []

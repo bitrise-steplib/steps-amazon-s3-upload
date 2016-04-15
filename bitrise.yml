@@ -4,9 +4,9 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 app:
   envs:
   # define these in your .bitrise.secrets.yml
-  - access_key_id:
-  - secret_access_key:
-  - upload_bucket:
+  - access_key_id: 
+  - secret_access_key: 
+  - upload_bucket: 
   - upload_local_path:
 
 workflows:
@@ -17,3 +17,4 @@ workflows:
         # - acl_control: private
         - acl_control: public-read
         - set_acl_only_on_changed_objets: true
+        # - aws_region: 'us-west-2'
