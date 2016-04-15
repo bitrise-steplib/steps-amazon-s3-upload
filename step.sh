@@ -81,6 +81,12 @@ if [ "${acl_control}" == 'public-read' ]; then
   aclcmd='public-read'
 fi
 
+trimmed_aws_region="$(echo -e "${aws_region}" | tr -d '[[:space:]]')"
+if [ -n ${trimmed_aws_region} ]; then
+  echo " (i) AWS region (${trimmed_aws_region}) specified!"
+  export AWS_DEFAULT_REGION="${trimmed_aws_region}"
+fi    
+
 s3_url="s3://${upload_bucket}"
 export AWS_ACCESS_KEY_ID="${access_key_id}"
 export AWS_SECRET_ACCESS_KEY="${secret_access_key}"
@@ -106,4 +112,7 @@ fi
 
 write_section_to_formatted_output "## Success"
 echo_string_to_formatted_output "* **Access Control** set to: **${acl_control}**"
+if [ -n ${AWS_DEFAULT_REGION} ]; then
+  echo_string_to_formatted_output "* **AWS Region**: **${trimmed_aws_region}**"
+fi
 echo_string_to_formatted_output "* **Base URL**: [http://${upload_bucket}.s3.amazonaws.com/](http://${upload_bucket}.s3.amazonaws.com/)"
