@@ -25,9 +25,9 @@ type_tags:
 is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
-dependencies:
-  - manager: brew
-    name: awscli
+deps:
+  brew:
+  - name: awscli
 run_if: ""
 inputs:
   - access_key_id: ""
@@ -35,25 +35,19 @@ inputs:
       title: "AWS Access Key"
       summary: ""
       description: ""
-      is_expand: false
       is_required: true
-      is_dont_change_value: false
   - secret_access_key: ""
     opts:
       title: "AWS Secret Key"
       summary: ""
       description: ""
-      is_expand: false
       is_required: true
-      is_dont_change_value: false
   - upload_bucket: ""
     opts:
       title: "S3 Bucket Name"
       summary: ""
       description: ""
-      is_expand: false
       is_required: true
-      is_dont_change_value: false
   - upload_local_path: ""
     opts:
       title: "Local path to upload"
@@ -62,18 +56,16 @@ inputs:
         If you want to sync only the content of
         the folder but don't want to create the folder then you
         should append a slash at the end of the path. Example: ./folder/
-      is_expand: true
       is_required: true
-      is_dont_change_value: false
   - acl_control: "private"
     opts:
       title: "Access Control"
       summary: ""
       description: ""
-      value_options: ["public-read", "private"]
-      is_expand: false
+      value_options:
+      - "public-read"
+      - "private"
       is_required: true
-      is_dont_change_value: false
   - set_acl_only_on_changed_objets: "true"
     opts:
       title: "Set ACL only on changed objects?"
@@ -88,7 +80,12 @@ inputs:
       value_options:
         - "true"
         - "false"
-      is_expand: false
       is_required: true
-      is_dont_change_value: false
+  - aws_region: ""
+    opts:
+      title: "AWS Region"
+      summary: ""
+      description: |
+        If you want to specify a different AWS region of the bucket. Leave
+        empty to use the default config/env setting.
 outputs: []
