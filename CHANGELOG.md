@@ -1,6 +1,14 @@
-## Changelog (Current version: 3.1.1)
+## Changelog (Current version: 3.1.2)
 
 -----------------
+
+### 3.1.2 (2016 Jun 16)
+
+* [2238778] prepare for v 3.1.2
+* [df45369] Merge pull request #8 from bitrise-io/secure_inputs
+* [1ce3f6d] secure inputs
+* [bd1d70d] Merge pull request #7 from bitrise-io/viktorbenei-patch-1
+* [5c66f9c] awscli - available for apt-get! [dependency]
 
 ### 3.1.1 (2016 Apr 19)
 
@@ -65,4 +73,4 @@
 
 -----------------
 
-Updated: 2016 Apr 19
+Updated: 2016 Jun 16
