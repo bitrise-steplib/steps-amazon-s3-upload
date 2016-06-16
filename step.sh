@@ -82,8 +82,16 @@ function validate_required_input_with_options {
 #
 # Validate parameters
 echo_info "Configs:"
-echo_details "* access_key_id: $access_key_id"
-echo_details "* secret_access_key: $secret_access_key"
+if [[ -n "$access_key_id" ]] ; then
+	echo_details "* access_key_id: ***"
+else
+	echo_details "* access_key_id: [EMPTY]"
+fi
+if [[ -n "$secret_access_key" ]] ; then
+	echo_details "* secret_access_key: ***"
+else
+	echo_details "* secret_access_key: [EMPTY]"
+fi
 echo_details "* upload_bucket: $upload_bucket"
 echo_details "* upload_local_path: $upload_local_path"
 echo_details "* acl_control: $acl_control"
