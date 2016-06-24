@@ -1,6 +1,12 @@
-## Changelog (Current version: 3.1.2)
+## Changelog (Current version: 3.1.3)
 
 -----------------
+
+### 3.1.3 (2016 Jun 24)
+
+* [061e6cd] prepare for 3.1.3
+* [95d7ea3] Merge pull request #11 from bitrise-io/missing_func
+* [9a114ce] missing print_failed_message fix
 
 ### 3.1.2 (2016 Jun 16)
 
@@ -73,4 +79,4 @@
 
 -----------------
 
-Updated: 2016 Jun 16
+Updated: 2016 Jun 24
