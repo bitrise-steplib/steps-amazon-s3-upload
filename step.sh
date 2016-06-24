@@ -115,12 +115,12 @@ validate_required_input_with_options "set_acl_only_on_changed_objets" $set_acl_o
 eval expanded_upload_local_path="${upload_local_path}"
 
 if [ ! -n "${upload_bucket}" ]; then
-  print_failed_message 'Input upload_bucket is missing'
+  echo_fail 'Input upload_bucket is missing'
   exit 1
 fi
 
 if [ ! -e "${expanded_upload_local_path}" ]; then
-  print_failed_message "The specified local path doesn't exist at: ${expanded_upload_local_path}"
+  echo_fail "The specified local path doesn't exist at: ${expanded_upload_local_path}"
   exit 1
 fi
 
