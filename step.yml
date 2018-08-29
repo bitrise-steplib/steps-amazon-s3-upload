@@ -13,15 +13,9 @@ description: |-
 website: https://github.com/bitrise-io/steps-amazon-s3-upload
 source_code_url: https://github.com/bitrise-io/steps-amazon-s3-upload
 support_url: https://github.com/bitrise-io/steps-amazon-s3-upload/issues
-host_os_tags:
-  - osx-10.9
-  - osx-10.10
-project_type_tags: []
+
 type_tags:
   - deploy
-  - upload
-  - uploader
-  - amazon
 is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
@@ -38,12 +32,16 @@ inputs:
       summary: ""
       description: ""
       is_required: true
+      is_expand: true
+      is_sensitive: true
   - secret_access_key: ""
     opts:
       title: "AWS Secret Key"
       summary: ""
       description: ""
       is_required: true
+      is_expand: true
+      is_sensitive: true
   - upload_bucket: ""
     opts:
       title: "S3 Bucket Name"
