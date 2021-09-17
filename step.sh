@@ -107,7 +107,7 @@ validate_required_input "upload_local_path" $upload_local_path
 options=("public-read"  "private")
 validate_required_input_with_options "acl_control" $acl_control "${options[@]}"
 
-options=("true"  "no")
+options=("true"  "false")
 validate_required_input_with_options "set_acl_only_on_changed_objets" $set_acl_only_on_changed_objets "${options[@]}"
 
 # this expansion is required for paths with ~
