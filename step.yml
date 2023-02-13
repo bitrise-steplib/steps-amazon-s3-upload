@@ -88,4 +88,13 @@ inputs:
       description: |
         Here you can specify a different AWS region of the bucket. You can leave
         it empty to use the default config/env setting.
+  - show_only_error: "false"
+    opts:
+      title: "Only show error messages"
+      summary: ""
+      description: |
+        Skip printing progress of file upload, only print error if occured.
+      value_options:
+        - "true"
+        - "false"
 outputs: []
